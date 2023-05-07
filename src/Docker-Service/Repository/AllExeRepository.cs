@@ -3,41 +3,39 @@ using Docker_Service.Model;
 using Docker_Service.Repository.Interface;
 using Newtonsoft.Json;
 
-public class AllExeRepository : IAllExeRepository
+namespace Docker_Service.Service.Interface
 {
-    private readonly IFileHelper _fileHelper;
-    private const string FilePath = "AppData/exeList.json";
-
-    public AllExeRepository(IFileHelper fileHelper)
+    public class AllExeRepository : IAllExeRepository
     {
-        _fileHelper = fileHelper;
-    }
+        private readonly IFileHelper _fileHelper;
+        private const string FilePath = "AppData/exeList.json";
 
-    /// <summary>
-    /// 根據指定的識別碼取得對應的 AllExeDto 物件。
-    /// </summary>
-    /// <param name="id">識別碼。</param>
-    /// <returns>對應的 AllExeDto 物件。</returns>
-    /// <exception cref="NullReferenceException">當檔案不存在時拋出此例外。</exception>
-    public async Task<AllExeDto> Get(string id)
-    {
-        var data = await _fileHelper.ReadFromFile(FilePath);
+        public AllExeRepository(IFileHelper fileHelper)
+        {
+            _fileHelper = fileHelper;
+        }
 
-        if (data == null)
-            throw new NullReferenceException("檔案不存在");
+        /// <summary>
+        /// 取得對應的 AllExeDto 物件。
+        /// </summary>
+        /// <returns>對應的 AllExeDto 物件。</returns>
+        /// <exception cref="NullReferenceException">當檔案不存在時拋出此例外。</exception>
+        public async Task<AllExeDto> Get()
+        {
+            var data = await _fileHelper.ReadFromFile(FilePath);
 
+            var allExeDto = JsonConvert.DeserializeObject<AllExeDto>(data);
+            return allExeDto;
+        }
 
-        var allExeDto = JsonConvert.DeserializeObject<AllExeDto>(data);
-        return allExeDto;
-    }
-
-    /// <summary>
-    /// 儲存指定的 AllExeDto 物件。
-    /// </summary>
-    /// <param name="allExeDto">要儲存的 AllExeDto 物件。</param>
-    public async Task Save(AllExeDto allExeDto)
-    {
-        var data = JsonConvert.SerializeObject(allExeDto);
-        await _fileHelper.WriteToFile(FilePath, data);
+        /// <summary>
+        /// 儲存指定的 AllExeDto 物件。
+        /// </summary>
+        /// <param name="allExeDto">要儲存的 AllExeDto 物件。</param>
+        public async Task Save(AllExeDto allExeDto)
+        {
+            var data = JsonConvert.SerializeObject(allExeDto);
+            await _fileHelper.WriteToFile(FilePath, data);
+        }
     }
 }

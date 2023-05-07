@@ -8,12 +8,11 @@ namespace Docker_Service.Repository.Interface
     public interface IAllExeRepository
     {
         /// <summary>
-        /// 根據指定的識別碼取得對應的 AllExeDto 物件。
+        /// 取得對應的 AllExeDto 物件。
         /// </summary>
-        /// <param name="id">識別碼。</param>
         /// <returns>對應的 AllExeDto 物件。</returns>
         /// <exception cref="NullReferenceException">當檔案不存在時拋出此例外。</exception>
-        Task<AllExeDto> Get(string name);
+        Task<AllExeDto> Get();
 
         /// <summary>
         /// 儲存指定的 AllExeDto 物件。

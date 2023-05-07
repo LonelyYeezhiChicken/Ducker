@@ -1,4 +1,6 @@
 using Docker_Service.Config;
+using Docker_Service.Service;
+using Docker_Service.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
+
+    var allExeService = services.GetRequiredService<IAllExeService>();
+
+    await allExeService.GetOrCreateAllExe();
+}
+
+
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -39,8 +51,7 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-app.Run();
-
+await app.RunAsync();
 internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);

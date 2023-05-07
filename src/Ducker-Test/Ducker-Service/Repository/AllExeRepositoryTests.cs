@@ -1,8 +1,8 @@
 ﻿using Docker_Service.Helper.Interface;
 using Docker_Service.Model;
+using Docker_Service.Service.Interface;
 using Moq;
 using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace Ducker_Test.Repository.Tests
 {
@@ -21,40 +21,26 @@ namespace Ducker_Test.Repository.Tests
         }
 
         [Test]
-        public async Task 取得_有效的Id_檔案存在_應回傳AllExeDto()
+        public async Task Get_檔案存在_應回傳AllExeDto()
         {
             // Arrange
-            string id = "123";
             var expectedDto = new AllExeDto()
             {
-                Id = id,
+                Id = "123",
             };
 
             fileHelperMock.Setup(mock => mock.ReadFromFile(FilePath))
                 .ReturnsAsync(JsonConvert.SerializeObject(expectedDto));
 
             // Act
-            var result = await allExeRepository.Get(id);
+            var result = await allExeRepository.Get();
 
             // Assert
             Assert.AreEqual(expectedDto.Id, result.Id);
         }
 
         [Test]
-        public void 取得_有效的Id_檔案不存在_應拋出NullReferenceException()
-        {
-            // Arrange
-            string id = "123";
-
-            fileHelperMock.Setup(mock => mock.ReadFromFile(FilePath))
-                .ReturnsAsync((string)null);
-
-            // Act and Assert
-            Assert.ThrowsAsync<NullReferenceException>(async () => await allExeRepository.Get(id));
-        }
-
-        [Test]
-        public async Task 儲存_應寫入檔案()
+        public async Task Save_應寫入檔案()
         {
             // Arrange
             var dto = new AllExeDto();

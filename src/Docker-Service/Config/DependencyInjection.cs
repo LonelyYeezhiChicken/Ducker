@@ -12,11 +12,11 @@
             // Helpers Di AddSingleton
             var diHelpers = typeof(Program).Assembly.GetExportedTypes()
              .Where(x => !x.IsAbstract && !x.IsInterface)
-             .Where(x => x.Name.EndsWith("Helpers"));
+             .Where(x => x.Name.EndsWith("Helper"));
 
             var idHelpers = typeof(Program).Assembly.GetExportedTypes()
                   .Where(x => x.IsAbstract || x.IsInterface)
-                  .Where(x => x.Name.EndsWith("Helpers"));
+                  .Where(x => x.Name.EndsWith("Helper"));
 
             diHelpers.ToList().ForEach(obj =>
             {

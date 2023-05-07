@@ -11,9 +11,8 @@ namespace Docker_Service.Service.Interface
         /// <summary>
         /// 根據指定的識別碼取得對應的 AllExeDto 物件，如果檔案不存在則建立新的 AllExeDto 物件並儲存。
         /// </summary>
-        /// <param name="id">識別碼。</param>
         /// <returns>對應的 AllExeDto 物件。</returns>
-        Task<AllExeDto> GetOrCreateAllExe(string id);
+        Task<AllExeDto> GetOrCreateAllExe();
     }
 
 }
