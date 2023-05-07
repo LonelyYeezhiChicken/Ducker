@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 public class AllExeRepository : IAllExeRepository
 {
     private readonly IFileHelper _fileHelper;
-    private const string FilePath = "AppData/";
+    private const string FilePath = "AppData/exeList.json";
 
     public AllExeRepository(IFileHelper fileHelper)
     {
@@ -21,13 +21,11 @@ public class AllExeRepository : IAllExeRepository
     /// <exception cref="NullReferenceException">當檔案不存在時拋出此例外。</exception>
     public async Task<AllExeDto> Get(string id)
     {
-        var filePath = $"{FilePath}{id}.json";
-        var data = await _fileHelper.ReadFromFile(filePath);
+        var data = await _fileHelper.ReadFromFile(FilePath);
 
         if (data == null)
-        {
             throw new NullReferenceException("檔案不存在");
-        }
+
 
         var allExeDto = JsonConvert.DeserializeObject<AllExeDto>(data);
         return allExeDto;
@@ -40,6 +38,6 @@ public class AllExeRepository : IAllExeRepository
     public async Task Save(AllExeDto allExeDto)
     {
         var data = JsonConvert.SerializeObject(allExeDto);
-        await _fileHelper.WriteToFile($"{FilePath}{allExeDto.Id}.json", data);
+        await _fileHelper.WriteToFile(FilePath, data);
     }
 }

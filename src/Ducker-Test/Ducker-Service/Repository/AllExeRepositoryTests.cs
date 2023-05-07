@@ -2,6 +2,7 @@
 using Docker_Service.Model;
 using Moq;
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 namespace Ducker_Test.Repository.Tests
 {
@@ -10,7 +11,7 @@ namespace Ducker_Test.Repository.Tests
     {
         private Mock<IFileHelper> fileHelperMock;
         private AllExeRepository allExeRepository;
-        private const string FilePath = "AppData/";
+        private const string FilePath = "AppData/exeList.json";
 
         [SetUp]
         public void Init()
@@ -29,7 +30,7 @@ namespace Ducker_Test.Repository.Tests
                 Id = id,
             };
 
-            fileHelperMock.Setup(mock => mock.ReadFromFile($"{FilePath}{id}.json"))
+            fileHelperMock.Setup(mock => mock.ReadFromFile(FilePath))
                 .ReturnsAsync(JsonConvert.SerializeObject(expectedDto));
 
             // Act
@@ -40,18 +41,17 @@ namespace Ducker_Test.Repository.Tests
         }
 
         [Test]
-        public async Task 取得_有效的Id_檔案不存在_應拋出NullReferenceException()
+        public void 取得_有效的Id_檔案不存在_應拋出NullReferenceException()
         {
             // Arrange
             string id = "123";
 
-            fileHelperMock.Setup(mock => mock.ReadFromFile($"{FilePath}{id}.json"))
+            fileHelperMock.Setup(mock => mock.ReadFromFile(FilePath))
                 .ReturnsAsync((string)null);
 
             // Act and Assert
             Assert.ThrowsAsync<NullReferenceException>(async () => await allExeRepository.Get(id));
         }
-
 
         [Test]
         public async Task 儲存_應寫入檔案()
@@ -63,7 +63,7 @@ namespace Ducker_Test.Repository.Tests
             await allExeRepository.Save(dto);
 
             // Assert
-            fileHelperMock.Verify(mock => mock.WriteToFile($"{FilePath}{dto.Id}.json", JsonConvert.SerializeObject(dto)), Times.Once);
+            fileHelperMock.Verify(mock => mock.WriteToFile(FilePath, JsonConvert.SerializeObject(dto)), Times.Once);
         }
     }
 }

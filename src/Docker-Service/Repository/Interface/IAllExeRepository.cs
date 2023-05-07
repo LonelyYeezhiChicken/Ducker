@@ -13,7 +13,7 @@ namespace Docker_Service.Repository.Interface
         /// <param name="id">識別碼。</param>
         /// <returns>對應的 AllExeDto 物件。</returns>
         /// <exception cref="NullReferenceException">當檔案不存在時拋出此例外。</exception>
-        Task<AllExeDto> Get(string id);
+        Task<AllExeDto> Get(string name);
 
         /// <summary>
         /// 儲存指定的 AllExeDto 物件。
