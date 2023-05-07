@@ -1,9 +1,14 @@
+using Docker_Service.Config;
+using Docker_Service.Service.Interface;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.DIContainer();
 
 var app = builder.Build();
 
@@ -16,28 +21,42 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+using (var serviceScope = app.Services.CreateScope())
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    var services = serviceScope.ServiceProvider;
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    var allExeService = services.GetRequiredService<IAllExeService>();
 
-app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    await allExeService.GetOrCreateAllExe();
 }
+
+
+app.MapGet("/hello", () =>
+{
+    return "hi hi";
+})
+.WithName("Hello");
+
+
+app.MapGet("/exes", async (IDuckerService duckerService) =>
+{
+    var exes = await duckerService.GetRegisteredExes();
+    return exes;
+})
+.WithName("GetExes");
+
+app.MapPost("/exes/start", async (string exePath, IDuckerService duckerService) =>
+{
+    await duckerService.StartExe(exePath);
+})
+.WithName("StartExe");
+
+
+app.MapGet("/exes/stop", async (int exeId, IDuckerService duckerService) =>
+{
+    await duckerService.StopExe(exeId);
+})
+.WithName("StopExe");
+
+
+await app.RunAsync();
