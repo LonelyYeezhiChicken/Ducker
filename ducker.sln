@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ducker-Service", "src\Docker-Service\Ducker-Service.csproj", "{27AAF05D-AFC5-4F12-BE2E-72F509841F2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ducker-Web-Api", "src\Docker-Web-Api\Ducker-Web-Api.csproj", "{B95C5ED0-3566-48C2-B087-12AB82DAE96A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ducker-Lib", "Ducker-Lib", "{48EF8F71-968A-442F-A660-3D8F3A93C5B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27AAF05D-AFC5-4F12-BE2E-72F509841F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27AAF05D-AFC5-4F12-BE2E-72F509841F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27AAF05D-AFC5-4F12-BE2E-72F509841F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27AAF05D-AFC5-4F12-BE2E-72F509841F2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B95C5ED0-3566-48C2-B087-12AB82DAE96A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B95C5ED0-3566-48C2-B087-12AB82DAE96A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B95C5ED0-3566-48C2-B087-12AB82DAE96A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B95C5ED0-3566-48C2-B087-12AB82DAE96A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58F935FE-B622-46AC-909B-DE508588B5BD}
+	EndGlobalSection
+EndGlobal
