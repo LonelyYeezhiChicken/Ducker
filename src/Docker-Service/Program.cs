@@ -1,5 +1,4 @@
 using Docker_Service.Config;
-using Docker_Service.Service;
 using Docker_Service.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,27 +31,32 @@ using (var serviceScope = app.Services.CreateScope())
 }
 
 
-var summaries = new[]
+app.MapGet("/hello", () =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return "hi hi";
 })
-.WithName("GetWeatherForecast");
+.WithName("Hello");
+
+
+app.MapGet("/exes", async (IDuckerService duckerService) =>
+{
+    var exes = await duckerService.GetRegisteredExes();
+    return exes;
+})
+.WithName("GetExes");
+
+app.MapPost("/exes/start", async (string exePath, IDuckerService duckerService) =>
+{
+    await duckerService.StartExe(exePath);
+})
+.WithName("StartExe");
+
+
+app.MapGet("/exes/stop", async (int exeId, IDuckerService duckerService) =>
+{
+    await duckerService.StopExe(exeId);
+})
+.WithName("StopExe");
+
 
 await app.RunAsync();
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

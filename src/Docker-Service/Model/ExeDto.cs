@@ -8,7 +8,7 @@
         /// <summary>
         /// 取得或設定 EXE 檔案的唯一識別碼。
         /// </summary>
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 取得或設定 EXE 檔案的名稱。
@@ -21,9 +21,19 @@
         public string Description { get; set; }
 
         /// <summary>
+        /// 取得或設定 EXE 檔案的路徑
+        /// </summary>
+        public string Path { get; set; }
+
+        /// <summary>
         /// 取得或設定 EXE 檔案的狀態。
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// 取得或設定 EXE 檔案的啟動時間
+        /// </summary>
+        public DateTime StartTime { get; set; }
     }
 
 }

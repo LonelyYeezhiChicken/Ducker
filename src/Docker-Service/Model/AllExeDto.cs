@@ -5,7 +5,6 @@
     /// </summary>
     public class AllExeDto
     {
-
         public AllExeDto()
         {
             ExeList = new List<ExeDto>();
